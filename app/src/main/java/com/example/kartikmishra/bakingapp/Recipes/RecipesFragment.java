@@ -9,9 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.kartikmishra.bakingapp.R;
 import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailActivity;
@@ -37,6 +39,11 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
+        if(savedInstanceState!=null && savedInstanceState.containsKey("recipeList")){
+
+            recipesList =  savedInstanceState.getParcelableArrayList("recipeList");
+
+        }
         FetchRecipesAsyncTask asyncTask = new FetchRecipesAsyncTask(RecipesFragment.this);
         asyncTask.execute(url);
     }
@@ -44,11 +51,7 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState!=null && savedInstanceState.containsKey("recipeList")){
 
-           recipesList =  savedInstanceState.getParcelableArrayList("recipeList");
-
-        }
 
     }
 
@@ -119,4 +122,6 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
         intent.putExtra("recipe_position",clickedItemIndex);
         startActivity(intent);
     }
+
+
 }

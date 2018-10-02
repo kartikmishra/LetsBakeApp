@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.kartikmishra.bakingapp.R;
 import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragment;
+import com.example.kartikmishra.bakingapp.Recipes.RecipesFragment;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -48,9 +50,23 @@ public class StepsVideoFragment extends Fragment {
     private Button nextStepBtn;
     private  int steps_number;
     private int videoUrlsListSize;
+    private long position;
+    private int resumeWindow;
 
+    String videoUrl;
     private int i;
     int c=0;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null && savedInstanceState.containsKey("POSITION")&&
+                savedInstanceState.containsKey("resumeWindow")){
+            position = savedInstanceState.getLong("POSITION",C.TIME_UNSET);
+            resumeWindow = savedInstanceState.getInt("resumeWindow");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -96,7 +112,13 @@ public class StepsVideoFragment extends Fragment {
             initializePlayer(RecipeDetailFragment.videoURLs.get(steps_number));
         }
 
+
+
         setUpNextBtn();
+
+//        if(getActivity().getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
+//            nextStepBtn.setVisibility(View.GONE);
+//        }
 
         return view;
     }
@@ -119,6 +141,7 @@ public class StepsVideoFragment extends Fragment {
                     new DefaultDataSourceFactory(Objects.requireNonNull(getContext()),userAgent),
                     new DefaultExtractorsFactory(),null,null);
 
+            resumeExoPlayer();
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
         }
@@ -128,15 +151,64 @@ public class StepsVideoFragment extends Fragment {
      * Function to Release the exoPlayer
      */
     private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if(mExoPlayer!=null){
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer=null;
+        }
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(newConfig.orientation ==Configuration.ORIENTATION_LANDSCAPE){
+            nextStepBtn.setVisibility(View.GONE);
+        }
+        if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+            nextStepBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        resumeWindow = mPlayerView.getPlayer().getCurrentWindowIndex();
+        position =Math.max(0,mPlayerView.getPlayer().getContentPosition());
         releasePlayer();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        releasePlayer();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("POSITION",position);
+        outState.putInt("resumeWindow",resumeWindow);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mExoPlayer==null){
+            initializePlayer(RecipeDetailFragment.videoURLs.get(steps_number));
+        }
+        else {
+            resumeExoPlayer();
+        }
+    }
+
+    private void resumeExoPlayer() {
+        boolean haveResumeposition = resumeWindow!=C.INDEX_UNSET;
+        if(haveResumeposition){
+            mPlayerView.getPlayer().seekTo(resumeWindow,position);
+        }
     }
 
     /**

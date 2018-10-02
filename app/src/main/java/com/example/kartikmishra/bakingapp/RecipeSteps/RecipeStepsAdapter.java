@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kartikmishra.bakingapp.R;
@@ -21,6 +22,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     private ListItemClickListener mListItemClickListener;
     private List<Steps> mListSteps = new ArrayList<>();
     private TextView steps_tv;
+    private ImageView recipe_step_iv;
 
     public RecipeStepsAdapter(Context mContext) {
         this.mContext = mContext;
@@ -51,6 +53,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         if(RecipeDetailFragment.stepsList!=null){
             if(RecipeDetailFragment.stepsList.size()>0 ){
                 steps_tv.setText(RecipeDetailFragment.stepsList.get(position).getShortDescription());
+                recipe_step_iv.setImageResource(R.drawable.chocolatecake);
             }
 
         }
@@ -68,6 +71,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
             super(itemView);
 
             steps_tv = itemView.findViewById(R.id.recipe_step_textView);
+            recipe_step_iv = itemView.findViewById(R.id.recipe_step_iv);
             itemView.setOnClickListener(this);
         }
 

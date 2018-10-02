@@ -3,11 +3,13 @@ package com.example.kartikmishra.bakingapp.Recipes;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kartikmishra.bakingapp.R;
 
@@ -21,6 +23,8 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
     private TextView nameTextView;
     private TextView servingsTv;
     private ImageView recipesImageView;
+    public static ImageView fav_symbol_iv;
+    public static int listPosition;
     private List<RecipesModel> mRecipesList;
     private  ListItemClickListener mListItemClickListener;
 
@@ -37,6 +41,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
 
     public interface ListItemClickListener{
         void onListItemClick(int clickedItemIndex);
+
     }
 
     @NonNull
@@ -52,7 +57,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipesAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecipesAdapterViewHolder holder, final int position) {
 
         //RecipesFragment.recipesList.clear();
         if(RecipesFragment.recipesList.size()>0){
@@ -71,7 +76,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
             else if(RecipesFragment.recipesList.get(position).getId()==4){
                 recipesImageView.setImageResource(R.drawable.cheesecake);
             }
+
+
+
         }
+
         holder.setIsRecyclable(false);
     }
 
@@ -82,12 +91,13 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
 
     class RecipesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public RecipesAdapterViewHolder(View itemView) {
+        RecipesAdapterViewHolder(View itemView) {
             super(itemView);
 
             nameTextView = itemView.findViewById(R.id.recipesActivity_recipeName_textView);
             servingsTv = itemView.findViewById(R.id.recipes_servings_tv);
             recipesImageView = itemView.findViewById(R.id.recipes_imageView);
+
             itemView.setOnClickListener(this);
         }
 
@@ -95,6 +105,8 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
             mListItemClickListener.onListItemClick(clickedPosition);
+
+
         }
     }
 }

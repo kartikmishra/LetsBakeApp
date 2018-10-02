@@ -2,6 +2,7 @@ package com.example.kartikmishra.bakingapp.RecipeDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.kartikmishra.bakingapp.R;
 import com.example.kartikmishra.bakingapp.RecipeIngredients.FetchIngredientsAsyncTask;
@@ -49,6 +51,7 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
      public static  List<String> videoURLs = new ArrayList<>();
      public  static  List<String> thumbnailURLs = new ArrayList<>();
     public static int recipe_number;
+    private ImageView fav_symbol_iv;
     private String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
 
@@ -56,6 +59,14 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        if(savedInstanceState!=null &&
+                savedInstanceState.containsKey("steps_list")&& savedInstanceState.containsKey("measure_list")
+                && savedInstanceState.containsKey("ingredient_list")&& savedInstanceState.containsKey("quantity")){
+            savedInstanceState.getParcelableArrayList("steps_list");
+            savedInstanceState.getStringArrayList("ingredient_list");
+            savedInstanceState.getStringArrayList("measure_list");
+            savedInstanceState.getStringArrayList("quantity");
+        }
     }
 
     @Nullable
@@ -76,7 +87,9 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
 
         recipesModel = RecipesFragment.recipesList.get(recipe_number);
         getActivity().setTitle(RecipesFragment.recipesList.get(recipe_number).getName());
+        fav_symbol_iv = view.findViewById(R.id.fav_symbol);
 
+        setUpFavBtn();
         RecyclerView recipesIngredientsRecyclerView = view.findViewById(R.id.recipe_detail_ingredients_recycler_view);
         RecyclerView recipesStepsRecyclerView = view.findViewById(R.id.recipe_detail_steps_recycler_view);
 
@@ -115,8 +128,6 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
         DividerItemDecoration itemDecoration = new DividerItemDecoration(recipesStepsRecyclerView.getContext(),StepsLayoutManager.getOrientation());
         recipesStepsRecyclerView.addItemDecoration(itemDecoration);
 
-        DividerItemDecoration itemDecoration1 = new DividerItemDecoration(recipesIngredientsRecyclerView.getContext(),IngredientLayoutManager.getOrientation());
-        recipesIngredientsRecyclerView.addItemDecoration(itemDecoration1);
         return view;
     }
 
@@ -139,7 +150,34 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     }
 
 
+    public void setUpFavBtn(){
+        final boolean[] isFav = {false};
 
+
+        fav_symbol_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFav[0]==true){
+                    fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
+                    isFav[0] = false;
+                }
+                else {
+                    fav_symbol_iv.setImageResource(R.drawable.favsymbolred);
+                    isFav[0] = true;
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("steps_list", (ArrayList<? extends Parcelable>) stepsList);
+        outState.putStringArrayList("measure_list", (ArrayList<String>) measure);
+        outState.putStringArrayList("ingredient_list", (ArrayList<String>) ingredient);
+        outState.putStringArrayList("quantity", (ArrayList<String>) quantity);
+    }
 
     @Override
     public void onStepsTaskCompleted(List<Steps> steps) {

@@ -1,39 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
-
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="#A9A9A9"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="10sp"
-        android:id="@+id/recipe_step_detail_carView">
-
-
-
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
 
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="90dp"
+                android:src="@drawable/chocolatecake"
+                android:layout_marginStart="10dp"
+                android:id="@+id/recipe_step_iv"/>
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:text="Recipe Introduction"
+                android:layout_marginStart="50dp"
                 android:textStyle="italic"
+                android:layout_marginTop="30dp"
+                android:layout_toEndOf="@+id/recipe_step_iv"
                 android:textColor="#801313"
                 android:id="@+id/recipe_step_textView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -43,10 +34,5 @@
         </RelativeLayout>
 
 
-    </android.support.v7.widget.CardView>
 
-
-
-
-
-</LinearLayout>
+</RelativeLayout>
