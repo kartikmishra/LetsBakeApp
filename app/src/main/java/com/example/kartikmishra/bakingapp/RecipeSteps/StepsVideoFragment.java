@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
@@ -47,7 +49,7 @@ public class StepsVideoFragment extends Fragment {
     private TextView description;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
-    private Button nextStepBtn;
+    private Button nextStepBtn,prevStepBtn;
     private  int steps_number;
     private int videoUrlsListSize;
     private long position;
@@ -82,6 +84,7 @@ public class StepsVideoFragment extends Fragment {
 
 
         nextStepBtn = view.findViewById(R.id.nextStepButton);
+        prevStepBtn = view.findViewById(R.id.prevStepBtn);
         if (steps_number == 0) {
             getActivity().setTitle("Introduction to Recipe");
         } else {
@@ -115,10 +118,8 @@ public class StepsVideoFragment extends Fragment {
 
 
         setUpNextBtn();
+        setUpPreviousBtn();
 
-//        if(getActivity().getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE){
-//            nextStepBtn.setVisibility(View.GONE);
-//        }
 
         return view;
     }
@@ -163,10 +164,22 @@ public class StepsVideoFragment extends Fragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if(newConfig.orientation ==Configuration.ORIENTATION_LANDSCAPE){
+
+            View decorView = Objects.requireNonNull(getActivity()).getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    // Hide the nav bar and status bar
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+            mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
             nextStepBtn.setVisibility(View.GONE);
+            prevStepBtn.setVisibility(View.GONE);
         }
-        if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+        else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
             nextStepBtn.setVisibility(View.VISIBLE);
+            prevStepBtn.setVisibility(View.VISIBLE);
+            mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
         }
     }
 
@@ -211,6 +224,7 @@ public class StepsVideoFragment extends Fragment {
         }
     }
 
+
     /**
      * Setting up skip to next video button here;
      */
@@ -233,6 +247,21 @@ public class StepsVideoFragment extends Fragment {
                 initializePlayer(RecipeDetailFragment.videoURLs.get(i));
 
 
+            }
+        });
+    }
+
+    public void setUpPreviousBtn(){
+        prevStepBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                releasePlayer();
+                i--;
+                c--;
+
+                getActivity().setTitle(RecipeDetailFragment.shortDescription.get(i));
+                description.setText(RecipeDetailFragment.description.get(i));
+                initializePlayer(RecipeDetailFragment.videoURLs.get(i));
             }
         });
     }

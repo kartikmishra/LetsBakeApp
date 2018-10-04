@@ -1,6 +1,10 @@
 package com.example.kartikmishra.bakingapp.RecipeDetails;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -15,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.kartikmishra.bakingapp.DatabaseProvider.RecipesContract;
 import com.example.kartikmishra.bakingapp.R;
 import com.example.kartikmishra.bakingapp.RecipeIngredients.FetchIngredientsAsyncTask;
 import com.example.kartikmishra.bakingapp.RecipeIngredients.Ingredients;
@@ -128,6 +133,11 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
         DividerItemDecoration itemDecoration = new DividerItemDecoration(recipesStepsRecyclerView.getContext(),StepsLayoutManager.getOrientation());
         recipesStepsRecyclerView.addItemDecoration(itemDecoration);
 
+        setUpFavBtnState();
+        setUpFavBtn();
+
+
+        Log.d(TAG, "onCreateView: id:"+RecipesFragment.COL__RECIPE_ID);
         return view;
     }
 
@@ -150,23 +160,140 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     }
 
 
-    public void setUpFavBtn(){
-        final boolean[] isFav = {false};
+    public void setUpFavBtnState(){
 
-
-        fav_symbol_iv.setOnClickListener(new View.OnClickListener() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            public void onClick(View v) {
-                if(isFav[0]==true){
-                    fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
-                    isFav[0] = false;
+            protected Boolean doInBackground(Void... voids) {
+                Cursor cursor = getContext().getContentResolver().query(
+                        RecipesContract.RecipesEntry.CONTENT_URI,
+                        null,
+                        RecipesContract.RecipesEntry.COLUMN_RECIPES_ID + " = ?",
+                        new String[]{String.valueOf(RecipesFragment.recipesList.get(recipe_number).getId())},null
+                );
+
+                boolean isFav=false;
+                if(cursor!=null && cursor.moveToNext()) {
+                    do {
+                        if (cursor.getLong(RecipesFragment.COL__RECIPE_ID) == RecipesFragment.recipesList.get(recipe_number).getId()) {
+                            isFav = true;
+                        } else if (cursor.isNull(RecipesFragment.COL__RECIPE_ID)) {
+                            isFav = false;
+                        }
+
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+                return isFav;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                if(aBoolean==true){
+                    fav_symbol_iv.setImageResource(R.drawable.favsymbolred);
                 }
                 else {
-                    fav_symbol_iv.setImageResource(R.drawable.favsymbolred);
-                    isFav[0] = true;
+                    fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
                 }
             }
-        });
+        }.execute();
+    }
+
+
+
+    public void setUpFavBtn(){
+        fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
+
+
+        new AsyncTask<String, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(String... strings) {
+                Cursor cursor = getContext().getContentResolver().query(
+                        RecipesContract.RecipesEntry.CONTENT_URI,
+                        null,
+                        RecipesContract.RecipesEntry.COLUMN_RECIPES_ID + "=?",
+                        new String[]{String.valueOf(RecipesFragment.recipesList.get(recipe_number).getId())},null
+                );
+
+                boolean isFav=false;
+                if(cursor!=null && cursor.moveToNext()) {
+                    do {
+                        if (cursor.getLong(RecipesFragment.COL__RECIPE_ID) == RecipesFragment.recipesList.get(recipe_number).getId()) {
+                            isFav = true;
+                        } else if (cursor.isNull(RecipesFragment.COL__RECIPE_ID)) {
+                            isFav = false;
+                        }
+
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+                return isFav;
+            }
+
+            @Override
+            protected void onPostExecute(final Boolean aBoolean) {
+
+                fav_symbol_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(aBoolean==true){
+                            new AsyncTask<Void, Void, Integer>() {
+                                @Override
+                                protected Integer doInBackground(Void... voids) {
+                                    return getActivity().getApplicationContext().getContentResolver().delete(
+                                            RecipesContract.RecipesEntry.CONTENT_URI,
+                                            RecipesContract.RecipesEntry.COLUMN_RECIPES_ID + " = ?",
+                                            new String[RecipesFragment.recipesList.get(recipe_number).getId()]
+                                    );
+                                }
+                                @Override
+                                protected void onPostExecute(Integer integer) {
+                                    Log.d(TAG, "onPostExecute: int:"+integer);
+                                    fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
+
+                                }
+                            }.execute();
+                        }else {
+                            if(RecipesFragment.recipesList!=null){
+                                new AsyncTask<String, Void, Uri>() {
+                                    @Override
+                                    protected Uri doInBackground(String... strings) {
+                                        ContentValues cv = new ContentValues();
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPES_ID,RecipesFragment.recipesList.get(recipe_number).getId());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_NAME,RecipesFragment.recipesList.get(recipe_number).getName());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_SERVINGS,RecipesFragment.recipesList.get(recipe_number).getServings());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_INGREDIENT,ingredientsList.get(recipe_number).getIngredient());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_MEASURE,ingredientsList.get(recipe_number).getMeasure());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_QUANTITY,ingredientsList.get(recipe_number).getQuantity());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_STEP_SHORT_DESCRIPTION,stepsList.get(recipe_number).getShortDescription());
+                                        cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_STEP_DESCRIPTION,stepsList.get(recipe_number).getDescription());
+                                        if(stepsList.get(recipe_number).getVideoUrl()!=null){
+                                            cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_STEP_VIDEO_URL,stepsList.get(recipe_number).getVideoUrl());
+                                        }
+                                        else {
+                                            cv.put(RecipesContract.RecipesEntry.COLUMN_RECIPE_STEP_VIDEO_URL,"");
+                                        }
+
+
+                                        return getActivity().getBaseContext().getContentResolver().insert(
+                                                RecipesContract.RecipesEntry.CONTENT_URI,cv);
+
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Uri uri) {
+                                        Log.d(TAG, "doInBackground: cv:"+uri);
+                                        fav_symbol_iv.setImageResource(R.drawable.favsymbolred);
+                                        startActivity(getActivity().getIntent());
+                                        getActivity().finish();
+                                    }
+                                }.execute();
+                            }
+                        }
+                    }
+                });
+            }
+        }.execute();
     }
 
 

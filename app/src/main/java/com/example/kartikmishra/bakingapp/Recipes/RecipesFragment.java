@@ -30,6 +30,21 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
     public static  RecipesModel recipesModel;
     RecyclerView recipesRecyclerView;
     private String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+
+
+    public static final int COL_ID=0;
+    public static final int COL__RECIPE_ID=1;
+    public static final int COL_RECIPE_NAME=2;
+    public static final int COL_SERVINGS =3;
+    public static final int COL_INGREDIENT=4;
+    public static final int COL_MEASURE=5;
+    public static final int COL_QUANTITY=6;
+    public static final int COL_SHORT_DESC=7;
+    public static final int COL_DESC=8;
+    public static final int COL_VIDEO_URL=9;
+    public static final int COL_THUMBNAIL_URL=10;
+
+
     public RecipesFragment() {
     }
 
@@ -62,15 +77,7 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
         View rootView = inflater.inflate(R.layout.fragment_recipes,container,false);
         recipesRecyclerView = rootView.findViewById(R.id.recipes_recyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
-        recipesRecyclerView.setLayoutManager(layoutManager);
-        recipesRecyclerView.setHasFixedSize(true);
-        recipesRecyclerView.stopScroll();
         updateRecipes();
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recipesRecyclerView.getContext(),layoutManager.getOrientation());
-        recipesRecyclerView.addItemDecoration(dividerItemDecoration);
-
 
         return rootView;
     }
@@ -85,6 +92,11 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
 
     public void updateRecipes(){
 
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL,false);
+        recipesRecyclerView.setLayoutManager(layoutManager);
+        recipesRecyclerView.setHasFixedSize(true);
+        recipesRecyclerView.stopScroll();
         if(recipesAdapter!=null){
             recipesAdapter.notifyDataSetChanged();
         }
@@ -93,6 +105,8 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
             recipesRecyclerView.setAdapter(recipesAdapter);
         }
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recipesRecyclerView.getContext(),layoutManager.getOrientation());
+        recipesRecyclerView.addItemDecoration(dividerItemDecoration);
 
     }
 
