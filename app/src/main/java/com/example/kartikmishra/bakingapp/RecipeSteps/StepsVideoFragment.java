@@ -213,6 +213,9 @@ public class StepsVideoFragment extends Fragment {
         }
     }
 
+    /**
+     * Method to resume the exoplayer  whenever the orientation changes
+     */
     private void resumeExoPlayer() {
         boolean haveResumeposition = resumeWindow!=C.INDEX_UNSET;
         if(haveResumeposition){
@@ -252,6 +255,9 @@ public class StepsVideoFragment extends Fragment {
         });
     }
 
+    /**
+     * Setting u previous button here to go back to previous step
+     */
     public void setUpPreviousBtn(){
 
 

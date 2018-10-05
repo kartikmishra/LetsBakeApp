@@ -85,6 +85,9 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
     }
 
 
+    /**
+     * Updating the recipes here
+     */
     public void updateRecipes(){
 
 
@@ -106,7 +109,10 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
     }
 
 
-
+    /**
+     * Updating the recipe list here to inflate in the recycler view
+     * @param recipes
+     */
     @Override
     public void onRecipesTaskCompleted(List<RecipesModel> recipes) {
 
@@ -124,6 +130,10 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
 
     }
 
+    /**
+     * Going to recipe detail activity from here when a recipe is selected
+     * @param clickedItemIndex
+     */
     @Override
     public void onListItemClick(int clickedItemIndex) {
 

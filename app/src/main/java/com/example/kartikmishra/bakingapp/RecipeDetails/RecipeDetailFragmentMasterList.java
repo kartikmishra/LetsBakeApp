@@ -163,12 +163,14 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
         editor.apply();
 
 
-        String recipe = sharedPreferences.getString("recipe_nutella_pie","hh");
-        //Log.d(TAG, "onCreateView: Shared:"+recipe);
         return view;
     }
 
 
+    /**
+     * Upadating the ingredient list here to show the selected ingredients in the recyclerView
+     * @param ingredients
+     */
     @Override
     public void onIngredientsTaskCompleted(List<Ingredients> ingredients) {
 
@@ -187,6 +189,9 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     }
 
 
+    /**
+     * Setting up favourite button state here
+     */
     public void setUpFavBtnState(){
 
         new AsyncTask<Void, Void, Boolean>() {
@@ -227,7 +232,9 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     }
 
 
-
+    /**
+     * Setting up favorite button here
+     */
     public void setUpFavBtn(){
         fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
 
@@ -324,6 +331,10 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     }
 
 
+    /**
+     * Saving the state of app here
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -333,6 +344,10 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
         outState.putStringArrayList("quantity", (ArrayList<String>) quantity);
     }
 
+    /**
+     * Updating the steps here to show them in the recycler view
+     * @param steps
+     */
     @Override
     public void onStepsTaskCompleted(List<Steps> steps) {
 
@@ -351,6 +366,10 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     }
 
 
+    /**
+     * Implemented the on step selected callback here to communicate with fragments
+     * @param clickedItemIndex
+     */
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
@@ -358,6 +377,9 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
         mCallBack.onStepSelected(clickedItemIndex);
     }
 
+    /**
+     * Unbinding the binder here
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
