@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.kartikmishra.bakingapp.HttpHandler;
-import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragment;
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 import com.example.kartikmishra.bakingapp.Recipes.FetchRecipesAsyncTask;
 
 import org.json.JSONArray;
@@ -35,10 +35,10 @@ public class FetchIngredientsAsyncTask extends AsyncTask<String,Void,List<Ingred
     private List<Ingredients> getDataFromJson(String jsonStr) throws JSONException{
 
 
-        RecipeDetailFragment.ingredientsList.clear();
-        RecipeDetailFragment.measure.clear();
-        RecipeDetailFragment.ingredient.clear();
-        RecipeDetailFragment.quantity.clear();
+        RecipeDetailFragmentMasterList.ingredientsList.clear();
+        RecipeDetailFragmentMasterList.measure.clear();
+        RecipeDetailFragmentMasterList.ingredient.clear();
+        RecipeDetailFragmentMasterList.quantity.clear();
 
         JSONArray recipesArray = new JSONArray(jsonStr);
 
@@ -58,12 +58,12 @@ public class FetchIngredientsAsyncTask extends AsyncTask<String,Void,List<Ingred
                 ingredients.setMeasure(ingredientOb.getString("measure"));
                 ingredients.setQuantity(ingredientOb.getInt("quantity"));
 
-                RecipeDetailFragment.ingredient.add(ingredientOb.getString("ingredient"));
-                RecipeDetailFragment.measure.add(ingredientOb.getString("measure"));
-                RecipeDetailFragment.quantity.add(ingredientOb.getString("quantity"));
+                RecipeDetailFragmentMasterList.ingredient.add(ingredientOb.getString("ingredient"));
+                RecipeDetailFragmentMasterList.measure.add(ingredientOb.getString("measure"));
+                RecipeDetailFragmentMasterList.quantity.add(ingredientOb.getString("quantity"));
 
                 results.add(ingredients);
-                RecipeDetailFragment.ingredientsList.add(ingredients);
+                RecipeDetailFragmentMasterList.ingredientsList.add(ingredients);
 
 
             }
@@ -131,9 +131,9 @@ public class FetchIngredientsAsyncTask extends AsyncTask<String,Void,List<Ingred
         if(ingredients!=null){
             if(ingredients.size()>0){
 
-                RecipeDetailFragment.ingredient.get(0);
-                RecipeDetailFragment.measure.get(0);
-                RecipeDetailFragment.quantity.get(0);
+                RecipeDetailFragmentMasterList.ingredient.get(0);
+                RecipeDetailFragmentMasterList.measure.get(0);
+                RecipeDetailFragmentMasterList.quantity.get(0);
                 taskCompleted.onIngredientsTaskCompleted(ingredients);
 
             }

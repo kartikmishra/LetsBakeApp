@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 import com.example.kartikmishra.bakingapp.R;
 import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailActivity;
 import com.example.kartikmishra.bakingapp.Recipes.RecipesActivity;
+import com.example.kartikmishra.bakingapp.Recipes.RecipesFragment;
 
 /**
  * Implementation of App Widget functionality.
@@ -29,8 +30,9 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-        CharSequence sequence = "Recipes";
-        views.setTextViewText(R.id.appwidget_text,sequence);
+        CharSequence sequence1 = "Ingredients";
+
+        views.setTextViewText(R.id.appwidget_text,sequence1);
         Intent intent = new Intent(context,RecipesActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,0);
         views.setOnClickPendingIntent(R.id.appwidget_text,pendingIntent);

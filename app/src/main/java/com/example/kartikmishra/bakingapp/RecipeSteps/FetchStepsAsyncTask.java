@@ -2,8 +2,8 @@ package com.example.kartikmishra.bakingapp.RecipeSteps;
 
 import android.os.AsyncTask;
 
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 import com.example.kartikmishra.bakingapp.Recipes.FetchRecipesAsyncTask;
-import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,12 +31,12 @@ public class FetchStepsAsyncTask extends AsyncTask<String,Void,List<Steps>> {
     private List<Steps> getDataFromJson(String jsonStr) throws JSONException{
 
 
-        RecipeDetailFragment.stepsList.clear();
-        RecipeDetailFragment.ids.clear();
-        RecipeDetailFragment.shortDescription.clear();
-        RecipeDetailFragment.description.clear();
-        RecipeDetailFragment.videoURLs.clear();
-        RecipeDetailFragment.thumbnailURLs.clear();
+        RecipeDetailFragmentMasterList.stepsList.clear();
+        RecipeDetailFragmentMasterList.ids.clear();
+        RecipeDetailFragmentMasterList.shortDescription.clear();
+        RecipeDetailFragmentMasterList.description.clear();
+        RecipeDetailFragmentMasterList.videoURLs.clear();
+        RecipeDetailFragmentMasterList.thumbnailURLs.clear();
         JSONArray recipesArray = new JSONArray(jsonStr);
 
         List<Steps> result = new ArrayList<>();
@@ -52,35 +52,35 @@ public class FetchStepsAsyncTask extends AsyncTask<String,Void,List<Steps>> {
             stepModel.setShortDescription(jsonStepsOb.getString("shortDescription"));
             stepModel.setDescription(jsonStepsOb.getString("description"));
 
-            RecipeDetailFragment.ids.add(jsonStepsOb.getInt("id"));
-            RecipeDetailFragment.shortDescription.add(jsonStepsOb.getString("shortDescription"));
-            RecipeDetailFragment.description.add(jsonStepsOb.getString("description"));
+            RecipeDetailFragmentMasterList.ids.add(jsonStepsOb.getInt("id"));
+            RecipeDetailFragmentMasterList.shortDescription.add(jsonStepsOb.getString("shortDescription"));
+            RecipeDetailFragmentMasterList.description.add(jsonStepsOb.getString("description"));
             if(jsonStepsOb.getString("videoURL")!=null){
 
-                RecipeDetailFragment.videoURLs.add(jsonStepsOb.getString("videoURL"));
+                RecipeDetailFragmentMasterList.videoURLs.add(jsonStepsOb.getString("videoURL"));
 
                 stepModel.setVideoUrl(jsonStepsOb.getString("videoURL"));
             }
             else {
-                RecipeDetailFragment.videoURLs.add("");
+                RecipeDetailFragmentMasterList.videoURLs.add("");
                 stepModel.setVideoUrl("");
 
             }
 
             if(jsonStepsOb.getString("thumbnailURL")!=null){
 
-                RecipeDetailFragment.thumbnailURLs.add(jsonStepsOb.getString("thumbnailURL"));
+                RecipeDetailFragmentMasterList.thumbnailURLs.add(jsonStepsOb.getString("thumbnailURL"));
                 stepModel.setThumbNailUrl(jsonStepsOb.getString("thumbnailURL"));
 
             }
             else {
-                RecipeDetailFragment.thumbnailURLs.add("");
+                RecipeDetailFragmentMasterList.thumbnailURLs.add("");
                 stepModel.setVideoUrl("");
             }
 
 
             result.add(stepModel);
-            RecipeDetailFragment.stepsList.add(stepModel);
+            RecipeDetailFragmentMasterList.stepsList.add(stepModel);
 
 
         }
@@ -125,11 +125,11 @@ public class FetchStepsAsyncTask extends AsyncTask<String,Void,List<Steps>> {
             if(steps.size()>0){
 
 
-                RecipeDetailFragment.ids.get(0);
-                //RecipeDetailFragment.shortDescription.get(0);
-                RecipeDetailFragment.description.get(0);
-                RecipeDetailFragment.videoURLs.get(0);
-                RecipeDetailFragment.thumbnailURLs.get(0);
+                RecipeDetailFragmentMasterList.ids.get(0);
+                //RecipeDetailFragmentMasterList.shortDescription.get(0);
+                RecipeDetailFragmentMasterList.description.get(0);
+                RecipeDetailFragmentMasterList.videoURLs.get(0);
+                RecipeDetailFragmentMasterList.thumbnailURLs.get(0);
                 onTaskCompleted.onStepsTaskCompleted(steps);
             }
         }

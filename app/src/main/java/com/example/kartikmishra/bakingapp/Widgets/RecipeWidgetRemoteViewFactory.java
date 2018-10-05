@@ -2,16 +2,24 @@ package com.example.kartikmishra.bakingapp.Widgets;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.example.kartikmishra.bakingapp.DatabaseProvider.RecipesContract;
 import com.example.kartikmishra.bakingapp.R;
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 import com.example.kartikmishra.bakingapp.Recipes.RecipesFragment;
 import com.example.kartikmishra.bakingapp.Widgets.RecipeWidgetProvider;
 
 public class RecipeWidgetRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
+    private static final String TAG = "RecipeWidgetRemoteViewF";
     private Context context;
+    private Cursor cursor;
+    private String recipe;
 
     public RecipeWidgetRemoteViewFactory(Context context, Intent intent) {
         this.context = context;
@@ -19,6 +27,10 @@ public class RecipeWidgetRemoteViewFactory implements RemoteViewsService.RemoteV
 
     @Override
     public void onCreate() {
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("my_pref",0);
+        recipe = sharedPreferences.getString("recipe_nutella_pie","hh");
+        Log.d(TAG, "onCreate: shared: "+recipe);
 
     }
 
@@ -30,11 +42,12 @@ public class RecipeWidgetRemoteViewFactory implements RemoteViewsService.RemoteV
     @Override
     public void onDestroy() {
 
+
     }
 
     @Override
     public int getCount() {
-        return RecipesFragment.recipesList.size();
+        return RecipeDetailFragmentMasterList.ingredientsList.size();
     }
 
     @Override
@@ -45,7 +58,19 @@ public class RecipeWidgetRemoteViewFactory implements RemoteViewsService.RemoteV
 
 
         RemoteViews rv = new RemoteViews(context.getPackageName(),R.layout.recipe_widget_provider);
-        rv.setTextViewText(R.id.appwidget_text,RecipesFragment.recipesList.get(position).getName());
+        if(recipe.equals(RecipesFragment.recipesList.get(0).getName())){
+                rv.setTextViewText(R.id.appwidget_text,RecipeDetailFragmentMasterList.ingredient.get(position));
+            }
+
+            else if(RecipesFragment.recipesList.get(1).getName().equals("Brownies")){
+            rv.setTextViewText(R.id.appwidget_text,RecipeDetailFragmentMasterList.ingredient.get(position));
+        }
+        else if(RecipesFragment.recipesList.get(2).getName().equals("Yellow Cake")){
+            rv.setTextViewText(R.id.appwidget_text,RecipeDetailFragmentMasterList.ingredient.get(position));
+        }else  if (RecipesFragment.recipesList.get(3).getName().equals("Cheese Cake")){
+            rv.setTextViewText(R.id.appwidget_text,RecipeDetailFragmentMasterList.ingredient.get(position));
+        }
+
 
         return rv;
     }

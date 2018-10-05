@@ -1,7 +1,9 @@
 package com.example.kartikmishra.bakingapp.RecipeDetails;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,16 +37,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RecipeDetailFragment extends Fragment implements FetchIngredientsAsyncTask.OnTaskCompleted,
-FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
-    private static final String TAG = "RecipeDetailFragment";
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-    public static Intent intent;
-    View view;
+public class RecipeDetailFragmentMasterList extends Fragment implements FetchIngredientsAsyncTask.OnTaskCompleted,
+FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
+    private static final String TAG = "RecipeDetailFragmentMas";
+
     public static RecipesModel recipesModel;
     public RecipeDetailIngredientsAdapter detailIngredientsAdapter;
     public   RecipeStepsAdapter recipeStepsAdapter;
-    public static Ingredients ingredientsModel;
      public static List<Ingredients> ingredientsList = new ArrayList<>();
      public static  List<Steps> stepsList = new ArrayList<>();
      public static  List<String> ingredient = new ArrayList<>();
@@ -56,9 +59,29 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
      public static  List<String> videoURLs = new ArrayList<>();
      public  static  List<String> thumbnailURLs = new ArrayList<>();
     public static int recipe_number;
-    private ImageView fav_symbol_iv;
     private String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    @BindView(R.id.fav_symbol) ImageView fav_symbol_iv;
+    @BindView(R.id.recipe_detail_ingredients_recycler_view) RecyclerView recipesIngredientsRecyclerView;
+    @BindView(R.id.recipe_detail_steps_recycler_view) RecyclerView recipesStepsRecyclerView;
+    private Unbinder unbinder;
+    OnStepClickListener mCallBack;
 
+    public interface OnStepClickListener{
+        void onStepSelected(int position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mCallBack = (OnStepClickListener) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString()+"must implement step click listener.");
+        }
+    }
+
+    public RecipeDetailFragmentMasterList() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,10 +102,9 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.recipe_detail_fragment,container,false);
+        View view = inflater.inflate(R.layout.recipe_detail_fragment_master_list,container,false);
 
-
-
+       unbinder=ButterKnife.bind(this,view);
 
         Intent intent = Objects.requireNonNull(getActivity()).getIntent();
 
@@ -92,11 +114,8 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
 
         recipesModel = RecipesFragment.recipesList.get(recipe_number);
         getActivity().setTitle(RecipesFragment.recipesList.get(recipe_number).getName());
-        fav_symbol_iv = view.findViewById(R.id.fav_symbol);
 
         setUpFavBtn();
-        RecyclerView recipesIngredientsRecyclerView = view.findViewById(R.id.recipe_detail_ingredients_recycler_view);
-        RecyclerView recipesStepsRecyclerView = view.findViewById(R.id.recipe_detail_steps_recycler_view);
 
 
         LinearLayoutManager IngredientLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,false);
@@ -123,10 +142,10 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
             recipeStepsAdapter = new RecipeStepsAdapter(getActivity(),stepsList,this);
             recipesStepsRecyclerView.setAdapter(recipeStepsAdapter);
         }
-        FetchIngredientsAsyncTask ingredientsAsyncTask = new FetchIngredientsAsyncTask(RecipeDetailFragment.this);
+        FetchIngredientsAsyncTask ingredientsAsyncTask = new FetchIngredientsAsyncTask(RecipeDetailFragmentMasterList.this);
         ingredientsAsyncTask.execute(String.valueOf(recipe_number));
 
-        FetchStepsAsyncTask stepsAsyncTask = new FetchStepsAsyncTask( RecipeDetailFragment.this);
+        FetchStepsAsyncTask stepsAsyncTask = new FetchStepsAsyncTask( RecipeDetailFragmentMasterList.this);
         stepsAsyncTask.execute(String.valueOf(recipe_number));
 
 
@@ -138,6 +157,14 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
 
 
         Log.d(TAG, "onCreateView: id:"+RecipesFragment.COL__RECIPE_ID);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("my_pref",0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("recipe_nutella_pie",RecipesFragment.recipesList.get(0).getName());
+        editor.apply();
+
+
+        String recipe = sharedPreferences.getString("recipe_nutella_pie","hh");
+        //Log.d(TAG, "onCreateView: Shared:"+recipe);
         return view;
     }
 
@@ -243,7 +270,7 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
                                     return getActivity().getApplicationContext().getContentResolver().delete(
                                             RecipesContract.RecipesEntry.CONTENT_URI,
                                             RecipesContract.RecipesEntry.COLUMN_RECIPES_ID + " = ?",
-                                            new String[RecipesFragment.recipesList.get(recipe_number).getId()]
+                                            new String[]{String.valueOf(RecipesFragment.recipesList.get(recipe_number).getId())}
                                     );
                                 }
                                 @Override
@@ -328,9 +355,12 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Log.d(TAG, "onListItemClick: "+clickedItemIndex);
+        mCallBack.onStepSelected(clickedItemIndex);
+    }
 
-        Intent intent = new Intent(getActivity(),StepsVideoActivity.class);
-        intent.putExtra("steps_item_position",clickedItemIndex);
-        startActivity(intent);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

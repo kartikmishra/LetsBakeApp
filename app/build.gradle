@@ -18,6 +18,10 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -34,5 +38,22 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-core:2.6.0'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.6.0'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.6.0'
+
+
+    implementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    androidTestImplementation("com.android.support.test.espresso:espresso-contrib:2.2.2") {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-v7'
+        exclude group: 'com.android.support', module: 'design'
+        exclude module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
+
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
 }

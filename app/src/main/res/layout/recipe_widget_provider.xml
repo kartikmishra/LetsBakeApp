@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:contentDescription="@string/appwidget_text"
-        android:text="Recipes"
+        android:text="Ingredients"
         android:textColor="#b435"
         android:layout_gravity="center_horizontal"
         android:gravity="center"

@@ -89,7 +89,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
         return mRecipesList.size();
     }
 
-    class RecipesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+   public class RecipesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         RecipesAdapterViewHolder(View itemView) {
             super(itemView);

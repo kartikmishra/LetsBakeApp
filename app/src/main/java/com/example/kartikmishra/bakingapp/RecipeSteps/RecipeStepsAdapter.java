@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kartikmishra.bakingapp.R;
-import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragment;
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +50,9 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     @Override
     public void onBindViewHolder(@NonNull RecipeStepsAdapterViewHolder holder, int position) {
 
-        if(RecipeDetailFragment.stepsList!=null){
-            if(RecipeDetailFragment.stepsList.size()>0 ){
-                steps_tv.setText(RecipeDetailFragment.stepsList.get(position).getShortDescription());
+        if(RecipeDetailFragmentMasterList.stepsList!=null){
+            if(RecipeDetailFragmentMasterList.stepsList.size()>0 ){
+                steps_tv.setText(RecipeDetailFragmentMasterList.stepsList.get(position).getShortDescription());
                 recipe_step_iv.setImageResource(R.drawable.chocolatecake);
             }
 

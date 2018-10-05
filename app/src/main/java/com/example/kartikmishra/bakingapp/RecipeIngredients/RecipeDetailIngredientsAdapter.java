@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.kartikmishra.bakingapp.R;
-import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragment;
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 
 import java.util.List;
 
@@ -47,9 +47,9 @@ public class RecipeDetailIngredientsAdapter extends RecyclerView.Adapter<RecipeD
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailIngredientViewHolder holder, int position) {
 
-        ingredient_tv.setText("Ingredient: "+RecipeDetailFragment.ingredient.get(position));
-        measure_tv.setText("Measure: "+RecipeDetailFragment.measure.get(position));
-        quantity_tv.setText("Quantity: "+RecipeDetailFragment.quantity.get(position));
+        ingredient_tv.setText("Ingredient: "+RecipeDetailFragmentMasterList.ingredient.get(position));
+        measure_tv.setText("Measure: "+RecipeDetailFragmentMasterList.measure.get(position));
+        quantity_tv.setText("Quantity: "+RecipeDetailFragmentMasterList.quantity.get(position));
 
         holder.setIsRecyclable(false);
     }

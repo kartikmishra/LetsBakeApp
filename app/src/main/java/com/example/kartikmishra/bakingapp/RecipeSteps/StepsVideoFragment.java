@@ -4,26 +4,20 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kartikmishra.bakingapp.R;
-import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragment;
-import com.example.kartikmishra.bakingapp.Recipes.RecipesFragment;
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -41,15 +35,17 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.util.Objects;
 
-import static android.view.View.SYSTEM_UI_FLAG_IMMERSIVE;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class StepsVideoFragment extends Fragment {
 
     private static final String TAG = "StepsVideoFragment";
-    private TextView description;
+    @BindView(R.id.steps_description_tv) TextView description;
+    @BindView(R.id.simpleExoPlayerView) SimpleExoPlayerView mPlayerView;
+    @BindView(R.id.nextStepButton) Button nextStepBtn;
+    @BindView(R.id.prevStepBtn) Button prevStepBtn;
     private SimpleExoPlayer mExoPlayer;
-    private SimpleExoPlayerView mPlayerView;
-    private Button nextStepBtn,prevStepBtn;
     private  int steps_number;
     private int videoUrlsListSize;
     private long position;
@@ -57,7 +53,10 @@ public class StepsVideoFragment extends Fragment {
 
     String videoUrl;
     private int i;
-    int c=0;
+
+
+    public StepsVideoFragment() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,45 +73,42 @@ public class StepsVideoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recipe_steps_video_fragment, container, false);
 
+        ButterKnife.bind(this,view);
         Intent intent = Objects.requireNonNull(getActivity()).getIntent();
          steps_number = intent.getIntExtra("steps_item_position", 0);
 
-        Log.d(TAG, "onCreateView: step size:"+RecipeDetailFragment.videoURLs.size());
-        videoUrlsListSize = RecipeDetailFragment.videoURLs.size();
+        Log.d(TAG, "onCreateView: step size:"+RecipeDetailFragmentMasterList.videoURLs.size());
+        videoUrlsListSize = RecipeDetailFragmentMasterList.videoURLs.size();
 
         videoUrlsListSize = videoUrlsListSize-1;
 
 
-        nextStepBtn = view.findViewById(R.id.nextStepButton);
-        prevStepBtn = view.findViewById(R.id.prevStepBtn);
+
         if (steps_number == 0) {
             getActivity().setTitle("Introduction to Recipe");
         } else {
 
-            getActivity().setTitle(RecipeDetailFragment.shortDescription.get(steps_number));
+            getActivity().setTitle(RecipeDetailFragmentMasterList.shortDescription.get(steps_number));
         }
         i = steps_number;
 
 
         Log.d(TAG, "onCreateView: short:");
 
-        description = view.findViewById(R.id.steps_description_tv);
 
-        description.setText(RecipeDetailFragment.description.get(steps_number));
-
-        mPlayerView = view.findViewById(R.id.simpleExoPlayerView);
+        description.setText(RecipeDetailFragmentMasterList.description.get(steps_number));
 
 
         mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(),R.drawable.questionmarktwo));
 
 
-        if(RecipeDetailFragment.recipe_number==0 && steps_number==5){
-            initializePlayer(RecipeDetailFragment.thumbnailURLs.get(5));
+        if(RecipeDetailFragmentMasterList.recipe_number==0 && steps_number==5){
+            initializePlayer(RecipeDetailFragmentMasterList.thumbnailURLs.get(5));
         }
 
 
-        if(RecipeDetailFragment.videoURLs.get(steps_number)!=null ){
-            initializePlayer(RecipeDetailFragment.videoURLs.get(steps_number));
+        if(RecipeDetailFragmentMasterList.videoURLs.get(steps_number)!=null ){
+            initializePlayer(RecipeDetailFragmentMasterList.videoURLs.get(steps_number));
         }
 
 
@@ -210,7 +206,7 @@ public class StepsVideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if(mExoPlayer==null){
-            initializePlayer(RecipeDetailFragment.videoURLs.get(steps_number));
+            initializePlayer(RecipeDetailFragmentMasterList.videoURLs.get(steps_number));
         }
         else {
             resumeExoPlayer();
@@ -234,17 +230,22 @@ public class StepsVideoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                releasePlayer();
-                i++;
-                c++;
+                if(i+1<RecipeDetailFragmentMasterList.shortDescription.size()){
+                    releasePlayer();
+                    i++;
 
-
-                if(RecipeDetailFragment.recipe_number==0 && steps_number==5){
-                    initializePlayer(RecipeDetailFragment.thumbnailURLs.get(5));
+                    if(RecipeDetailFragmentMasterList.recipe_number==0 && steps_number==5){
+                        initializePlayer(RecipeDetailFragmentMasterList.thumbnailURLs.get(5));
+                    }
+                    getActivity().setTitle(RecipeDetailFragmentMasterList.shortDescription.get(i));
+                    description.setText(RecipeDetailFragmentMasterList.description.get(i));
+                    initializePlayer(RecipeDetailFragmentMasterList.videoURLs.get(i));
                 }
-                getActivity().setTitle(RecipeDetailFragment.shortDescription.get(i));
-                description.setText(RecipeDetailFragment.description.get(i));
-                initializePlayer(RecipeDetailFragment.videoURLs.get(i));
+                else {
+                    Toast.makeText(getContext(), "No More steps!", Toast.LENGTH_SHORT).show();
+
+                }
+
 
 
             }
@@ -252,16 +253,24 @@ public class StepsVideoFragment extends Fragment {
     }
 
     public void setUpPreviousBtn(){
+
+
         prevStepBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                releasePlayer();
-                i--;
-                c--;
+                if(i-1>0){
+                    releasePlayer();
+                    i--;
 
-                getActivity().setTitle(RecipeDetailFragment.shortDescription.get(i));
-                description.setText(RecipeDetailFragment.description.get(i));
-                initializePlayer(RecipeDetailFragment.videoURLs.get(i));
+                    getActivity().setTitle(RecipeDetailFragmentMasterList.shortDescription.get(i));
+                    description.setText(RecipeDetailFragmentMasterList.description.get(i));
+                    initializePlayer(RecipeDetailFragmentMasterList.videoURLs.get(i));
+                }
+                else {
+                    Toast.makeText(getContext(), "This is the first step!", Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
     }

@@ -20,6 +20,10 @@ import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.OnTaskCompleted,RecipesAdapter.ListItemClickListener {
 
@@ -27,22 +31,11 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
     public  RecipesAdapter recipesAdapter;
     public static List<RecipesModel> recipesList = new ArrayList<>();
     public static ArrayList<String> recipesName = new ArrayList<>();
-    public static  RecipesModel recipesModel;
-    RecyclerView recipesRecyclerView;
     private String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
+    @BindView(R.id.recipes_recyclerView) RecyclerView recipesRecyclerView;
 
-    public static final int COL_ID=0;
     public static final int COL__RECIPE_ID=1;
-    public static final int COL_RECIPE_NAME=2;
-    public static final int COL_SERVINGS =3;
-    public static final int COL_INGREDIENT=4;
-    public static final int COL_MEASURE=5;
-    public static final int COL_QUANTITY=6;
-    public static final int COL_SHORT_DESC=7;
-    public static final int COL_DESC=8;
-    public static final int COL_VIDEO_URL=9;
-    public static final int COL_THUMBNAIL_URL=10;
 
 
     public RecipesFragment() {
@@ -59,6 +52,7 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
             recipesList =  savedInstanceState.getParcelableArrayList("recipeList");
 
         }
+
         FetchRecipesAsyncTask asyncTask = new FetchRecipesAsyncTask(RecipesFragment.this);
         asyncTask.execute(url);
     }
@@ -75,7 +69,8 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_recipes,container,false);
-        recipesRecyclerView = rootView.findViewById(R.id.recipes_recyclerView);
+
+        ButterKnife.bind(this,rootView);
 
         updateRecipes();
 
@@ -136,6 +131,5 @@ public class RecipesFragment extends Fragment implements FetchRecipesAsyncTask.O
         intent.putExtra("recipe_position",clickedItemIndex);
         startActivity(intent);
     }
-
 
 }

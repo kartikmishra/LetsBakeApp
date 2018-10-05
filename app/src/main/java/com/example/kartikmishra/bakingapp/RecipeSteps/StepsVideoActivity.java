@@ -14,13 +14,16 @@ public class StepsVideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps_video);
 
-        StepsVideoFragment stepsVideoFragment = new StepsVideoFragment();
+        if(savedInstanceState==null){
+            StepsVideoFragment stepsVideoFragment = new StepsVideoFragment();
 
-        FragmentManager manager = getSupportFragmentManager();
+            FragmentManager manager = getSupportFragmentManager();
 
-        manager.beginTransaction()
-                .add(R.id.recipestepVideoDetailContainer,stepsVideoFragment)
-                .commit();
+            manager.beginTransaction()
+                    .add(R.id.recipestepVideoDetailContainer,stepsVideoFragment)
+                    .commit();
+        }
+
 
 
     }

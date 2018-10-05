@@ -5,32 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:id="@+id/linearLayoutTwoPane"
-    tools:context=".MainActivity">
+    tools:context=".RecipeDetails.RecipeDetailActivity">
 
+
+
+
+
+    <FrameLayout
+        android:layout_width="500dp"
+        android:layout_height="match_parent"
+        android:id="@+id/recipeDetailContainerMasterList"></FrameLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/mLinearLayout">
-
-        <FrameLayout
-            android:layout_width="400dp"
-            android:layout_height="match_parent"
-            android:id="@+id/recipeDetailContainers">
-
-
-        </FrameLayout>
+        android:id="@+id/step_detail_linear_layout"
+        android:background="#ffff"
+        android:orientation="vertical">
 
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recipestepVideoDetailContainers">
+            android:id="@+id/recipestepVideoDetailContainer"></FrameLayout>
 
-        </FrameLayout>
+
+
     </LinearLayout>
+
+
 
 </LinearLayout>
