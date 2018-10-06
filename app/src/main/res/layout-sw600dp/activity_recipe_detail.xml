@@ -12,7 +12,7 @@
 
 
     <FrameLayout
-        android:layout_width="500dp"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         android:id="@+id/recipeDetailContainerMasterList"></FrameLayout>
 

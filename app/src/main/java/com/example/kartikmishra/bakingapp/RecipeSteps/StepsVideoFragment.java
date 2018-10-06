@@ -8,15 +8,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kartikmishra.bakingapp.R;
+import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailActivity;
 import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -43,8 +46,8 @@ public class StepsVideoFragment extends Fragment {
     private static final String TAG = "StepsVideoFragment";
     @BindView(R.id.steps_description_tv) TextView description;
     @BindView(R.id.simpleExoPlayerView) SimpleExoPlayerView mPlayerView;
-    @BindView(R.id.nextStepButton) Button nextStepBtn;
-    @BindView(R.id.prevStepBtn) Button prevStepBtn;
+   @BindView(R.id.nextStepButton) Button nextStepBtn;
+   @BindView(R.id.prevStepBtn) Button prevStepBtn;
     private SimpleExoPlayer mExoPlayer;
     private  int steps_number;
     private int videoUrlsListSize;
@@ -66,6 +69,8 @@ public class StepsVideoFragment extends Fragment {
             position = savedInstanceState.getLong("POSITION",C.TIME_UNSET);
             resumeWindow = savedInstanceState.getInt("resumeWindow");
         }
+
+
     }
 
     @Nullable
@@ -75,12 +80,18 @@ public class StepsVideoFragment extends Fragment {
 
         ButterKnife.bind(this,view);
         Intent intent = Objects.requireNonNull(getActivity()).getIntent();
-         steps_number = intent.getIntExtra("steps_item_position", 0);
 
-        Log.d(TAG, "onCreateView: step size:"+RecipeDetailFragmentMasterList.videoURLs.size());
-        videoUrlsListSize = RecipeDetailFragmentMasterList.videoURLs.size();
 
-        videoUrlsListSize = videoUrlsListSize-1;
+        if(RecipeDetailActivity.mTwoPane){
+            steps_number = RecipeDetailActivity.steps_number_from_recipe_detail;
+            prevStepBtn.setVisibility(View.GONE);
+            nextStepBtn.setVisibility(View.GONE);
+        }
+        else {
+            steps_number = intent.getIntExtra("steps_item_position", 0);
+            prevStepBtn.setVisibility(View.VISIBLE);
+            nextStepBtn.setVisibility(View.GONE);
+        }
 
 
 
@@ -94,6 +105,7 @@ public class StepsVideoFragment extends Fragment {
 
 
         Log.d(TAG, "onCreateView: short:");
+
 
 
         description.setText(RecipeDetailFragmentMasterList.description.get(steps_number));
@@ -159,24 +171,28 @@ public class StepsVideoFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if(newConfig.orientation ==Configuration.ORIENTATION_LANDSCAPE){
 
-            View decorView = Objects.requireNonNull(getActivity()).getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    // Hide the nav bar and status bar
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN);
+        if(!RecipeDetailActivity.mTwoPane){
+            if(newConfig.orientation ==Configuration.ORIENTATION_LANDSCAPE){
 
-            mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
-            nextStepBtn.setVisibility(View.GONE);
-            prevStepBtn.setVisibility(View.GONE);
+                View decorView = Objects.requireNonNull(getActivity()).getWindow().getDecorView();
+                decorView.setSystemUiVisibility(
+                        // Hide the nav bar and status bar
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+                mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+                nextStepBtn.setVisibility(View.GONE);
+                prevStepBtn.setVisibility(View.GONE);
+            }
+            else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
+                nextStepBtn.setVisibility(View.VISIBLE);
+                prevStepBtn.setVisibility(View.VISIBLE);
+                mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+
+            }
         }
-        else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT){
-            nextStepBtn.setVisibility(View.VISIBLE);
-            prevStepBtn.setVisibility(View.VISIBLE);
-            mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
-        }
     }
 
     @Override
@@ -280,4 +296,5 @@ public class StepsVideoFragment extends Fragment {
             }
         });
     }
+
 }

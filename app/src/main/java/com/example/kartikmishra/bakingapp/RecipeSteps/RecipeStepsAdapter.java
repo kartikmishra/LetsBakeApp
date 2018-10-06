@@ -66,7 +66,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         return mListSteps.size();
     }
 
-    class RecipeStepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class RecipeStepsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public RecipeStepsAdapterViewHolder(View itemView) {
             super(itemView);
 

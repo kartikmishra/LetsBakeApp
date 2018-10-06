@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.example.kartikmishra.bakingapp.R;
 
+import java.util.Objects;
+
 public class StepsVideoActivity extends AppCompatActivity {
 
     @Override
@@ -32,10 +34,10 @@ public class StepsVideoActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            getSupportActionBar().hide();
+            Objects.requireNonNull(getSupportActionBar()).hide();
         }
         else if(newConfig.orientation==Configuration.ORIENTATION_PORTRAIT) {
-            getSupportActionBar().show();
+            Objects.requireNonNull(getSupportActionBar()).show();
         }
     }
 }

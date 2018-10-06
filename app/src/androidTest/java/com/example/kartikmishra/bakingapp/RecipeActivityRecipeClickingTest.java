@@ -6,6 +6,7 @@ import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -24,25 +25,33 @@ import org.junit.runner.RunWith;
 
 import java.util.regex.Matcher;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 @RunWith(AndroidJUnit4.class)
-public class RecipeActivityRecipeNameTest {
+public class RecipeActivityRecipeClickingTest {
 
 
     @Rule public ActivityTestRule<RecipesActivity> mActivityTestRule =
             new  ActivityTestRule<>(RecipesActivity.class);
 
 
-    @Before
-    public void init(){
-        mActivityTestRule.getActivity().getFragmentManager().beginTransaction();
-    }
+//    @Before
+//    public void init(){
+//        mActivityTestRule.getActivity().getFragmentManager().beginTransaction();
+//    }
 
     @Test
-    public void check_recipe_name_of_first_item_in_recyclerView(){
+    public void check_clickingevent_on_rv_opens_correct_deatil_view (){
 
-        Espresso.onView(ViewMatchers.withId(R.id.recipesActivity_recipeName_textView))
-                .perform(RecyclerViewActions.<RecipesAdapter.RecipesAdapterViewHolder>scrollToPosition(0))
-                .check(ViewAssertions.matches(ViewMatchers.withText("Nutella Pie")));
-
+        Intents.init();
+        onView(withId(R.id.recipes_recyclerView))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        intended(hasExtraWithKey("recipe_position"));
+        Intents.release();
     }
 }
