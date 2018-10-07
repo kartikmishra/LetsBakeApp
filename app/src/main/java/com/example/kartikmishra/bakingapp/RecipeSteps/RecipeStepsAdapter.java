@@ -53,7 +53,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         if(RecipeDetailFragmentMasterList.stepsList!=null){
             if(RecipeDetailFragmentMasterList.stepsList.size()>0 ){
                 steps_tv.setText(RecipeDetailFragmentMasterList.stepsList.get(position).getShortDescription());
-                recipe_step_iv.setImageResource(R.drawable.chocolatecake);
+                //recipe_step_iv.setImageResource(R.drawable.chocolatecake);
             }
 
         }
@@ -71,7 +71,7 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
             super(itemView);
 
             steps_tv = itemView.findViewById(R.id.recipe_step_textView);
-            recipe_step_iv = itemView.findViewById(R.id.recipe_step_iv);
+            //recipe_step_iv = itemView.findViewById(R.id.recipe_step_iv);
             itemView.setOnClickListener(this);
         }
 

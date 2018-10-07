@@ -7,25 +7,25 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="90dp"
-                android:src="@drawable/chocolatecake"
-                android:layout_marginStart="10dp"
-                android:id="@+id/recipe_step_iv"/>
+            <!--<ImageView-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="90dp"-->
+                <!--android:layout_marginStart="10dp"-->
+                <!--android:id="@+id/recipe_step_iv"/>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Recipe Introduction"
                 android:layout_marginStart="50dp"
                 android:textStyle="italic"
+                android:layout_marginBottom="30dp"
+                android:layout_centerInParent="true"
                 android:layout_marginTop="30dp"
-                android:layout_toEndOf="@+id/recipe_step_iv"
-                android:textColor="#801313"
+                android:textColor="#43A047"
                 android:id="@+id/recipe_step_textView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:gravity="center"/>

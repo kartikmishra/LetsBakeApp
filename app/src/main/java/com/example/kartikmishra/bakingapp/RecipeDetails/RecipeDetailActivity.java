@@ -31,11 +31,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         manager = getSupportFragmentManager();
         if((findViewById(R.id.step_detail_linear_layout)!=null)){
             mTwoPane = true;
-
             if(savedInstanceState==null){
 //                StepsVideoFragment fragment = new StepsVideoFragment();
 //                manager.beginTransaction().add(R.id.recipestepVideoDetailContainer,fragment)
-//                .commit();
+//               .commit();
+
             }
 
 
@@ -45,9 +45,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         }
 
         RecipeDetailFragmentMasterList recipeDetailFragmentMasterList = new RecipeDetailFragmentMasterList();
-
-
-
         manager.beginTransaction()
                 .add(R.id.recipeDetailContainerMasterList, recipeDetailFragmentMasterList,"MyFragment")
                 .commit();

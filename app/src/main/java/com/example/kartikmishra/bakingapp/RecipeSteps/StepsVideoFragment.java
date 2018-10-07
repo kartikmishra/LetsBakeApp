@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.kartikmishra.bakingapp.R;
 import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailActivity;
 import com.example.kartikmishra.bakingapp.RecipeDetails.RecipeDetailFragmentMasterList;
+import com.example.kartikmishra.bakingapp.Recipes.RecipesActivity;
+import com.example.kartikmishra.bakingapp.Recipes.RecipesFragment;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -83,6 +85,7 @@ public class StepsVideoFragment extends Fragment {
 
 
         if(RecipeDetailActivity.mTwoPane){
+
             steps_number = RecipeDetailActivity.steps_number_from_recipe_detail;
             prevStepBtn.setVisibility(View.GONE);
             nextStepBtn.setVisibility(View.GONE);
@@ -90,39 +93,34 @@ public class StepsVideoFragment extends Fragment {
         else {
             steps_number = intent.getIntExtra("steps_item_position", 0);
             prevStepBtn.setVisibility(View.VISIBLE);
-            nextStepBtn.setVisibility(View.GONE);
+            nextStepBtn.setVisibility(View.VISIBLE);
         }
 
 
 
-        if (steps_number == 0) {
-            getActivity().setTitle("Introduction to Recipe");
-        } else {
+            if (steps_number == 0) {
+                getActivity().setTitle("Introduction to Recipe");
+            } else {
 
-            getActivity().setTitle(RecipeDetailFragmentMasterList.shortDescription.get(steps_number));
-        }
-        i = steps_number;
-
-
-        Log.d(TAG, "onCreateView: short:");
-
+                getActivity().setTitle(RecipeDetailFragmentMasterList.shortDescription.get(steps_number));
+            }
+            i = steps_number;
 
 
         description.setText(RecipeDetailFragmentMasterList.description.get(steps_number));
 
 
-        mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(),R.drawable.questionmarktwo));
+            mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(),R.drawable.questionmarktwo));
 
 
-        if(RecipeDetailFragmentMasterList.recipe_number==0 && steps_number==5){
-            initializePlayer(RecipeDetailFragmentMasterList.thumbnailURLs.get(5));
-        }
+            if(RecipeDetailFragmentMasterList.recipe_number==0 && steps_number==5){
+                initializePlayer(RecipeDetailFragmentMasterList.thumbnailURLs.get(5));
+            }
 
 
-        if(RecipeDetailFragmentMasterList.videoURLs.get(steps_number)!=null ){
-            initializePlayer(RecipeDetailFragmentMasterList.videoURLs.get(steps_number));
-        }
-
+            if(RecipeDetailFragmentMasterList.videoURLs.get(steps_number)!=null ){
+                initializePlayer(RecipeDetailFragmentMasterList.videoURLs.get(steps_number));
+            }
 
 
         setUpNextBtn();
@@ -137,7 +135,7 @@ public class StepsVideoFragment extends Fragment {
      * Initializing the exoPlayer in this method
      * @param url
      */
-    private void initializePlayer(String url) {
+    public  void initializePlayer(String url) {
 
         if(mExoPlayer==null){
             TrackSelector selector = new DefaultTrackSelector();
