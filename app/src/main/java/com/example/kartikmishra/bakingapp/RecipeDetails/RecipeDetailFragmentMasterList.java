@@ -284,6 +284,8 @@ FetchStepsAsyncTask.OnTaskCompleted,RecipeStepsAdapter.ListItemClickListener{
                                 protected void onPostExecute(Integer integer) {
                                     Log.d(TAG, "onPostExecute: int:"+integer);
                                     fav_symbol_iv.setImageResource(R.drawable.favsymboldark);
+                                    startActivity(getActivity().getIntent());
+                                    getActivity().finish();
 
                                 }
                             }.execute();
