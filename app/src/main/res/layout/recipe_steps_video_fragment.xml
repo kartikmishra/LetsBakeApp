@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/lime_500">
 
 
 
@@ -73,11 +74,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-           android:layout_marginBottom="6dp">
+           android:layout_marginBottom="40dp">
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:id="@+id/nextStepButton"
                 android:textColor="#228B22"
                 android:layout_marginEnd="10dp"
@@ -88,12 +89,12 @@
                 android:text="Skip to Next step"/>
 
             <Button
-                android:layout_width="160dp"
-                android:layout_height="50dp"
+                android:layout_width="170dp"
+                android:layout_height="30dp"
                 android:id="@+id/prevStepBtn"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/white_rounded_button"
-                android:text="Back to previous step"
+                android:text="Back to previous"
 
                 android:textColor="#808000"/>
 

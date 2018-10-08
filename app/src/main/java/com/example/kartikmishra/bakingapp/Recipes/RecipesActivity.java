@@ -27,6 +27,8 @@ public class RecipesActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .add(R.id.recipes_container,recipesFragment)
                 .commit();
+
+
     }
 
 }

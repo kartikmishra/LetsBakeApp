@@ -1,6 +1,7 @@
 package com.example.kartikmishra.bakingapp.Recipes;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -61,9 +62,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
 
         //RecipesFragment.recipesList.clear();
         if(RecipesFragment.recipesList.size()>0){
+            Typeface typeface = Typeface.SERIF;
             nameTextView.setText(RecipesFragment.recipesList.get(position).getName());
-            servingsTv.setText("Servings: "+RecipesFragment.recipesList.get(position).getServings()+" persons");
 
+            servingsTv.setText("Servings: "+RecipesFragment.recipesList.get(position).getServings()+" persons");
+            nameTextView.setTypeface(typeface);
             if(RecipesFragment.recipesList.get(position).getId()==1){
                 recipesImageView.setImageResource(R.drawable.nutellapie);
             }

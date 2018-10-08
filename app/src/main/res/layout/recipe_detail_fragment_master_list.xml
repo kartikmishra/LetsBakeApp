@@ -16,8 +16,9 @@
             android:text="Ingredients"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:textStyle="italic"
             android:textSize="20sp"
-            android:textColor="#bb4"/>
+            android:textColor="@color/orange_500"/>
 
         <ImageView
             android:layout_width="40dp"
@@ -33,7 +34,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="20sp"
+        android:layout_marginTop="15sp"
+        android:layout_marginBottom="15sp"
         android:background="#000"/>
 
    <android.support.v7.widget.RecyclerView
@@ -54,7 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Steps"
-        android:textColor="#bb4"
+        android:textColor="@color/amber_500"
+        android:textStyle="italic"
         android:layout_marginStart="10dp"
         android:textSize="20sp"
         android:layout_marginTop="15sp"/>

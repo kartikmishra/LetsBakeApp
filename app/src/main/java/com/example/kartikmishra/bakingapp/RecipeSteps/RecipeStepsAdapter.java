@@ -1,6 +1,7 @@
 package com.example.kartikmishra.bakingapp.RecipeSteps;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,7 +53,9 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
         if(RecipeDetailFragmentMasterList.stepsList!=null){
             if(RecipeDetailFragmentMasterList.stepsList.size()>0 ){
+                Typeface typeface = Typeface.createFromAsset(mContext.getAssets(),"res/font/pacifico.ttf");
                 steps_tv.setText(RecipeDetailFragmentMasterList.stepsList.get(position).getShortDescription());
+                steps_tv.setTypeface(typeface);
                 //recipe_step_iv.setImageResource(R.drawable.chocolatecake);
             }
 

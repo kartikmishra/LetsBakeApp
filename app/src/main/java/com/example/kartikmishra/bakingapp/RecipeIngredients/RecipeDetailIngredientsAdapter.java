@@ -1,6 +1,7 @@
 package com.example.kartikmishra.bakingapp.RecipeIngredients;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,9 +48,13 @@ public class RecipeDetailIngredientsAdapter extends RecyclerView.Adapter<RecipeD
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailIngredientViewHolder holder, int position) {
 
+        Typeface typeface = Typeface.SERIF;
         ingredient_tv.setText("Ingredient: "+RecipeDetailFragmentMasterList.ingredient.get(position));
+        ingredient_tv.setTypeface(typeface);
         measure_tv.setText("Measure: "+RecipeDetailFragmentMasterList.measure.get(position));
+        measure_tv.setTypeface(typeface);
         quantity_tv.setText("Quantity: "+RecipeDetailFragmentMasterList.quantity.get(position));
+        quantity_tv.setTypeface(typeface);
 
         holder.setIsRecyclable(false);
     }
