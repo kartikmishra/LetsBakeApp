@@ -29,17 +29,17 @@ Don’t assume that all steps of the recipe have a video. Some may have a video,
 One of the skills that will demonstrate in this project is how to handle unexpected input in this <br/>
 data -- professional developers often cannot expect polished JSON data when building an app.<br/><br/><br/>
 
-![alt text] (SS1.png)
+![Alt text] (SS1.png)
 
-![alt text] (SS2.png)
+![Alt text] (SS2.png)
 
-![alt text] (SS3.png)
+![Alt text] (SS3.png)
 
-![alt text] (SS4.png)
+![Alt text] (SS4.png)
 
-![alt text] (SS5.png)
+![Alt text] (SS5.png)
 
-![alt text] (SS6.png)
+![Alt text] (SS6.png)
 
 
 
