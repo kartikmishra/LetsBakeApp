@@ -30,6 +30,9 @@ One of the skills that will demonstrate in this project is how to handle unexpec
 data -- professional developers often cannot expect polished JSON data when building an app.<br/><br/><br/>
 
 ![Alt text] (SS1.png)
+<div align="center">
+    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS1.png" width="400px"</img> 
+</div>
 
 ![Alt text] (SS2.png)
 
