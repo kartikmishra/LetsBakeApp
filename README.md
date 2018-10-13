@@ -40,10 +40,10 @@ data -- professional developers often cannot expect polished JSON data when buil
 </div>
 <div align="left">
     <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS4.png" width="500px"</img> 
-</div>
+</div><br/>
 <div align="left">
     <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS5.png" width="700px"</img> 
-</div>
+</div><br/>
 <div align="left">
     <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS6.png" width="700px"</img> 
 </div>
