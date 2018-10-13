@@ -29,9 +29,11 @@ Don’t assume that all steps of the recipe have a video. Some may have a video,
 One of the skills that will demonstrate in this project is how to handle unexpected input in this <br/>
 data -- professional developers often cannot expect polished JSON data when building an app.<br/><br/><br/>
 
-![Alt text] (SS1.png)
-<div align="center">
-    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS1.png" width="400px"</img> 
+<div align="left">
+    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS1.png" width="300px"</img> 
+</div>
+<div align="right">
+    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS2.png" width="300px"</img> 
 </div>
 
 ![Alt text] (SS2.png)
