@@ -34,6 +34,7 @@ data -- professional developers often cannot expect polished JSON data when buil
 ![alt text] (SS3.png)
 ![alt text] (SS4.png)
 ![alt text] (SS5.png)
+
 ![alt text] (SS6.png)
 
 
