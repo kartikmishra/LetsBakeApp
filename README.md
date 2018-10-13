@@ -30,9 +30,13 @@ One of the skills that will demonstrate in this project is how to handle unexpec
 data -- professional developers often cannot expect polished JSON data when building an app.<br/><br/><br/>
 
 ![alt text] (SS1.png)
+
 ![alt text] (SS2.png)
+
 ![alt text] (SS3.png)
+
 ![alt text] (SS4.png)
+
 ![alt text] (SS5.png)
 
 ![alt text] (SS6.png)
