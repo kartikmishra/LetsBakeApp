@@ -39,13 +39,13 @@ data -- professional developers often cannot expect polished JSON data when buil
     <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS3.png" width="300px"</img> 
 </div>
 <div align="left">
-    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS4.png" width="300px"</img> 
+    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS4.png" width="500px"</img> 
 </div>
 <div align="left">
-    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS5.png" width="300px"</img> 
+    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS5.png" width="500x"</img> 
 </div>
 <div align="left">
-    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS6.png" width="300px"</img> 
+    <img src="https://github.com/kartikmishra/LetsBakeApp/blob/master/SS6.png" width="500px"</img> 
 </div>
 
 
